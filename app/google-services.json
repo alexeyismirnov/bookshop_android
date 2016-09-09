@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "185284179107",
+    "firebase_url": "https://torrid-inferno-5814.firebaseio.com",
+    "project_id": "torrid-inferno-5814",
+    "storage_bucket": "torrid-inferno-5814.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185284179107:android:c05378157d4a2838",
+        "android_client_info": {
+          "package_name": "com.rlc.bookshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185284179107-9hp3orlugividddtmrrdccr2d61ed554.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVaX3WZenibgwJ-LJs-umox9m5dotLIR4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
