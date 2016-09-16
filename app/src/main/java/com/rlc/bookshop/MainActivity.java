@@ -4,7 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -72,9 +76,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Translate.setLanguage("en");
 
         setContentView(R.layout.activity_main);
 
@@ -94,13 +102,14 @@ public class MainActivity extends AppCompatActivity {
             public void populateViewHolder(BookHolder viewHolder, BookData book, int position) {
                 viewHolder.setTitle(book.getTitle());
                 viewHolder.setImage(book.getImage());
-
-
             }
-
         };
 
         recycler.setAdapter(mAdapter);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         /*
         ref.orderByChild("date_created").addValueEventListener(new ValueEventListener() {
@@ -121,5 +130,26 @@ public class MainActivity extends AppCompatActivity {
         });
        */
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_toggle) {
+
+        } else if (id == R.id.action_options) {
+            OptionsDialog dialog = new OptionsDialog(MainActivity.this, getPreferences(0));
+            dialog.show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

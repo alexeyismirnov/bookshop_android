@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="trans_ui_en" translatable="false">
+        <item>Orthodox Library</item>
+        <item>Language</item>
+        <item>Author</item>
+        <item>Date added</item>
+        <item>Publisher</item>
+        <item>Number of pages</item>
+        <item>Translator</item>
+        <item>Read EPUB</item>
+        <item>Read PDF</item>
+        <item>Download EPUB</item>
+        <item>Download PDF</item>
+        <item>Favorites</item>
+        <item>Catalogue</item>
+    </string-array>
+
+    <string-array name="trans_ui_zh_cn" translatable="false">
+        <item>正教图书馆</item>
+        <item>语言</item>
+        <item>作者</item>
+        <item>出版日期</item>
+        <item>出版社</item>
+        <item>页数</item>
+        <item>译者</item>
+        <item>阅读EPUB文件</item>
+        <item>阅读PDF文件</item>
+        <item>下载EPUB文件</item>
+        <item>下载PDF文件</item>
+        <item>我的最愛</item>
+        <item>目录</item>
+    </string-array>
+
+    <string-array name="trans_ui_zh_hk" translatable="false">
+        <item>正教圖書館</item>
+        <item>語言</item>
+        <item>作者</item>
+        <item>出版日期</item>
+        <item>出版社</item>
+        <item>頁數</item>
+        <item>譯者</item>
+        <item>閱讀EPUB文件</item>
+        <item>閱讀PDF文件</item>
+        <item>下載EPUB文件</item>
+        <item>下載PDF文件</item>
+        <item>我的最愛</item>
+        <item>目錄</item>
+    </string-array>
+
+    <string-array name="trans_ui_ru" translatable="false">
+        <item>Библиотека</item>
+        <item>Язык</item>
+        <item>Автор</item>
+        <item>Добавлено</item>
+        <item>Издательство</item>
+        <item>Кол-во страниц</item>
+        <item>Переводчик</item>
+        <item>Читать EPUB</item>
+        <item>Читать PDF</item>
+        <item>Скачать EPUB</item>
+        <item>Скачать PDF</item>
+        <item>Избранное</item>
+        <item>Каталог</item>
+    </string-array>
+
+</resources>
