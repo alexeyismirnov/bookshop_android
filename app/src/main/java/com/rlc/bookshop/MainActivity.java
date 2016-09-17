@@ -1,5 +1,6 @@
 package com.rlc.bookshop;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,22 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    public static class BookHolder extends RecyclerView.ViewHolder {
+    public static class BookHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         View mView;
+        String key;
 
         public BookHolder(View itemView) {
             super(itemView);
             mView = itemView;
+
+            mView.setOnClickListener(this);
         }
 
         public void setTitle(String title) {
@@ -42,6 +43,19 @@ public class MainActivity extends AppCompatActivity {
             Picasso.with(mView.getContext()).load(imageUrl).into(image);
         }
 
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.i("Bookshop", key);
+
+            Intent detailIntent = new Intent(mView.getContext(), BookDetailActivity.class);
+            detailIntent.putExtra("key", key);
+            mView.getContext().startActivity(detailIntent);
+
+        }
     }
 
     public static class BookData  {
@@ -102,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
             public void populateViewHolder(BookHolder viewHolder, BookData book, int position) {
                 viewHolder.setTitle(book.getTitle());
                 viewHolder.setImage(book.getImage());
+
+                String key = this.getRef(position).getKey();
+                viewHolder.setKey(key);
             }
         };
 

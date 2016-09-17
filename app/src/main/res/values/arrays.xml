@@ -9,6 +9,7 @@
         <item>Publisher</item>
         <item>Number of pages</item>
         <item>Translator</item>
+        <item>Description</item>
         <item>Read EPUB</item>
         <item>Read PDF</item>
         <item>Download EPUB</item>
@@ -25,6 +26,7 @@
         <item>出版社</item>
         <item>页数</item>
         <item>译者</item>
+        <item>介绍</item>
         <item>阅读EPUB文件</item>
         <item>阅读PDF文件</item>
         <item>下载EPUB文件</item>
@@ -41,6 +43,7 @@
         <item>出版社</item>
         <item>頁數</item>
         <item>譯者</item>
+        <item>介紹</item>
         <item>閱讀EPUB文件</item>
         <item>閱讀PDF文件</item>
         <item>下載EPUB文件</item>
@@ -57,6 +60,7 @@
         <item>Издательство</item>
         <item>Кол-во страниц</item>
         <item>Переводчик</item>
+        <item>Описание</item>
         <item>Читать EPUB</item>
         <item>Читать PDF</item>
         <item>Скачать EPUB</item>
