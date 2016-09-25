@@ -1,28 +1,44 @@
 package com.rlc.bookshop;
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class BookDetailActivity extends AppCompatActivity {
+
+public class BookDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static ArrayList<Entry<String, String>> detailsSchema;
     static {
@@ -88,6 +104,13 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private ArrayAdapter adapter;
     private BookDetails item;
+    private String download_url;
+    private String epub_url;
+    String bookTitle;
+    ProgressBar mProgressBar;
+
+    private DownloadManager downloadManager;
+    private long downloadReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
@@ -104,6 +127,27 @@ public class BookDetailActivity extends AppCompatActivity {
         setTitle(Translate.s("Orthodox Library"));
 
         item = new BookDetails();
+
+        TextView titleView = (TextView)findViewById(R.id.bookTitle);
+        bookTitle = this.getIntent().getExtras().getString("title");
+        titleView.setText(bookTitle);
+
+        ImageView image = (ImageView)findViewById(R.id.bookImage);
+        String imageUrl = this.getIntent().getExtras().getString("imageUrl");
+        Picasso.with(this).load(imageUrl).into(image);
+
+        download_url = this.getIntent().getExtras().getString("download_url");
+        epub_url = this.getIntent().getExtras().getString("epub_url");
+
+        ImageButton epubButton = (ImageButton)findViewById(R.id.epubButton);
+        ImageButton pdfButton = (ImageButton)findViewById(R.id.pdfButton);
+
+        if (epub_url == null || epub_url.trim().isEmpty()) {
+            epubButton.setVisibility(View.INVISIBLE);
+        }
+
+        pdfButton.setOnClickListener(this);
+        epubButton.setOnClickListener(this);
 
         final ListView listview = (ListView) findViewById(R.id.listView);
 
@@ -165,7 +209,105 @@ public class BookDetailActivity extends AppCompatActivity {
         });
 
 
+        IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        registerReceiver(downloadReceiver, filter);
     }
+
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.pdfButton:
+                downloadManager = (DownloadManager)getSystemService(DOWNLOAD_SERVICE);
+                Uri Download_Uri = Uri.parse(download_url);
+                DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
+
+                request.setTitle("Downloading");
+                request.setDescription(bookTitle);
+
+                request.setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS,"book.pdf");
+
+                downloadReference = downloadManager.enqueue(request);
+
+                mProgressBar = (ProgressBar)findViewById(R.id.progress_bar);
+                mProgressBar.setVisibility(View.VISIBLE);
+
+                Timer myTimer = new Timer();
+                myTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        DownloadManager.Query q = new DownloadManager.Query();
+                        q.setFilterById(downloadReference);
+                        Cursor cursor = downloadManager.query(q);
+                        cursor.moveToFirst();
+                        int bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                        int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                        cursor.close();
+                        final int dl_progress = (bytes_downloaded * 100 / bytes_total);
+                        runOnUiThread(new Runnable(){
+                            @Override
+                            public void run(){
+                                mProgressBar.setProgress(dl_progress);
+                            }
+                        });
+
+                    }
+
+                }, 0, 10);
+
+                break;
+            case R.id.epubButton:
+                break;
+        }
+    }
+
+
+    private BroadcastReceiver downloadReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            //check if the broadcast message is for our Enqueued download
+            long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            if (downloadReference == referenceId) {
+                Toast toast = Toast.makeText(BookDetailActivity.this,
+                        "Downloading of data just finished", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 25, 400);
+                toast.show();
+
+                mProgressBar.setVisibility(View.INVISIBLE);
+                
+                DownloadManager.Query query = new DownloadManager.Query();
+                query.setFilterById(referenceId);
+                Cursor c = downloadManager.query(query);
+                if (c.moveToFirst()) {
+                    int columnIndex = c
+                            .getColumnIndex(DownloadManager.COLUMN_STATUS);
+                    if (DownloadManager.STATUS_SUCCESSFUL == c
+                            .getInt(columnIndex)) {
+
+                        String uriString = c
+                                .getString(c
+                                        .getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                        Uri uri = Uri.parse(uriString);
+
+                        intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setDataAndType(uri, "application/pdf");
+
+                        // callback.onSuccess();
+
+                        context.startActivity(intent);
+
+                    }
+                    else{
+                        // callback.onError();
+                    }
+                }
+
+
+            }
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

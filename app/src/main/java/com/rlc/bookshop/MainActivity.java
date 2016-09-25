@@ -25,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     public static class BookHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         View mView;
         String key;
+        String title;
+        String imageUrl;
+        String download_url;
+        String epub_url;
 
         public BookHolder(View itemView) {
             super(itemView);
@@ -34,11 +38,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void setTitle(String title) {
+            this.title = title;
             TextView field = (TextView) mView.findViewById(R.id.title);
             field.setText(title);
         }
 
         public void setImage(String imageUrl) {
+            this.imageUrl = imageUrl;
             ImageView image = (ImageView)mView.findViewById(R.id.cover);
             Picasso.with(mView.getContext()).load(imageUrl).into(image);
         }
@@ -53,8 +59,12 @@ public class MainActivity extends AppCompatActivity {
 
             Intent detailIntent = new Intent(mView.getContext(), BookDetailActivity.class);
             detailIntent.putExtra("key", key);
-            mView.getContext().startActivity(detailIntent);
+            detailIntent.putExtra("title", title);
+            detailIntent.putExtra("imageUrl", imageUrl);
+            detailIntent.putExtra("download_url", download_url);
+            detailIntent.putExtra("epub_url", epub_url);
 
+            mView.getContext().startActivity(detailIntent);
         }
     }
 
@@ -118,7 +128,9 @@ public class MainActivity extends AppCompatActivity {
                 viewHolder.setImage(book.getImage());
 
                 String key = this.getRef(position).getKey();
-                viewHolder.setKey(key);
+                viewHolder.key = key;
+                viewHolder.download_url = book.getDownloadUrl();
+                viewHolder.epub_url = book.getEpubUrl();
             }
         };
 
