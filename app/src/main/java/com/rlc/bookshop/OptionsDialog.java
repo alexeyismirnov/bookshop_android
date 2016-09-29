@@ -83,7 +83,7 @@ public class OptionsDialog extends Dialog
 
         switch (v.getId()) {
             case R.id.okButton:
-               //  c.updateView();
+                c.updateView();
                 dismiss();
                 break;
 

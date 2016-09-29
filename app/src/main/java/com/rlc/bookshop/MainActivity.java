@@ -1,6 +1,7 @@
 package com.rlc.bookshop;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,8 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
+import java.lang.reflect.Field;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -96,19 +99,43 @@ public class MainActivity extends AppCompatActivity {
         }
         public String getEpubUrl() { return epub_url; }
         public String getImage() { return image; }
-        public String getTitle() { return title_en; }
+        public String getTitle() {
+            try {
+                Field field = this.getClass().getField("title_"+Translate.getLanguage());
+                String str = (String)field.get(this);
+                return str;
+
+            }  catch (Exception e2) { }
+
+            return title_en;
+        }
 
     }
 
     private Toolbar toolbar;
+    FirebaseRecyclerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Translate.setLanguage("en");
+        SharedPreferences prefs = getPreferences(0);
+
+        if (prefs.getString("language", "").equals("")) {
+            Translate.setLanguage("en");
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("language", "en");
+            editor.commit();
+
+            OptionsDialog dialog = new OptionsDialog(MainActivity.this, getPreferences(0));
+            dialog.show();
+        }
+
+        Translate.setLanguage(prefs.getString("language", "en"));
 
         setContentView(R.layout.activity_main);
+        setTitle(Translate.s("Orthodox Library"));
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("/index");
@@ -121,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         recycler.setLayoutManager(layoutManager);
 
-        FirebaseRecyclerAdapter mAdapter = new FirebaseRecyclerAdapter<BookData, BookHolder>(BookData.class, R.layout.list_item, BookHolder.class, ref.orderByChild("date_created"))  {
+        mAdapter = new FirebaseRecyclerAdapter<BookData, BookHolder>(BookData.class, R.layout.list_item, BookHolder.class, ref.orderByChild("date_created"))  {
             @Override
             public void populateViewHolder(BookHolder viewHolder, BookData book, int position) {
                 viewHolder.setTitle(book.getTitle());
@@ -138,26 +165,6 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-        /*
-        ref.orderByChild("date_created").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot book: snapshot.getChildren()) {
-                    BookData item = book.getValue(BookData.class);
-                    Log.i("Bookshop", item.getDownloadUrl());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w("Bookshop", "loadPost:onCancelled", databaseError.toException());
-                // ...
-            }
-        });
-       */
 
     }
 
@@ -180,5 +187,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateView() {
+        Runnable run = new Runnable() {
+            public void run() {
+                setTitle(Translate.s("Orthodox Library"));
+                mAdapter.notifyDataSetChanged();
+            }
+        };
+
+        runOnUiThread(run);
+
     }
 }

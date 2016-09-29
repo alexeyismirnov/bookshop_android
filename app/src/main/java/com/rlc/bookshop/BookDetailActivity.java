@@ -188,7 +188,7 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
                     }  catch (Exception e2) { }
                 }
 
-                text1.setText(detailsSchema.get(position).getValue());
+                text1.setText(Translate.s(detailsSchema.get(position).getValue()));
                 return view;
             }
         };
@@ -281,7 +281,7 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
         downloadReference = downloadManager.enqueue(request);
 
         mProgressDialog = new ProgressDialog(BookDetailActivity.this);
-        mProgressDialog.setMessage("Downloading " + filename);
+        mProgressDialog.setMessage(Translate.s("Downloading") + " " + filename);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(true);

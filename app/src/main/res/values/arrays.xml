@@ -16,6 +16,7 @@
         <item>Download PDF</item>
         <item>Favorites</item>
         <item>Catalogue</item>
+        <item>Downloading</item>
     </string-array>
 
     <string-array name="trans_ui_zh_cn" translatable="false">
@@ -33,6 +34,7 @@
         <item>下载PDF文件</item>
         <item>我的最愛</item>
         <item>目录</item>
+        <item>下载</item>
     </string-array>
 
     <string-array name="trans_ui_zh_hk" translatable="false">
@@ -50,6 +52,7 @@
         <item>下載PDF文件</item>
         <item>我的最愛</item>
         <item>目錄</item>
+        <item>下載</item>
     </string-array>
 
     <string-array name="trans_ui_ru" translatable="false">
@@ -67,6 +70,7 @@
         <item>Скачать PDF</item>
         <item>Избранное</item>
         <item>Каталог</item>
+        <item>Загрузка</item>
     </string-array>
 
 </resources>
