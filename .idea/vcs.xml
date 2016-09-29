@@ -3,5 +3,8 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/folioreader" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/swipe_library" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/webViewMarker-release" vcs="svn" />
   </component>
 </project>

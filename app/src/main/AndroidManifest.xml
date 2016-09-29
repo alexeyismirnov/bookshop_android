@@ -22,6 +22,7 @@
         </activity>
 
         <activity android:name=".BookDetailActivity" />
+        <activity android:name="com.folioreader.activity.FolioActivity" />
 
     </application>
 

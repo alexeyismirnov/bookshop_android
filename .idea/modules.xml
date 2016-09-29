@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Bookshop.iml" filepath="$PROJECT_DIR$/Bookshop.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/folioreader/folioreader.iml" filepath="$PROJECT_DIR$/folioreader/folioreader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swipe_library/swipe_library.iml" filepath="$PROJECT_DIR$/swipe_library/swipe_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webViewMarker-release/webViewMarker-release.iml" filepath="$PROJECT_DIR$/webViewMarker-release/webViewMarker-release.iml" />
     </modules>
   </component>
 </project>
