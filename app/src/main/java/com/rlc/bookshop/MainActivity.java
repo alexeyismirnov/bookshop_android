@@ -1,17 +1,22 @@
 package com.rlc.bookshop;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -114,24 +119,28 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     FirebaseRecyclerAdapter mAdapter;
+    SharedPreferences prefs;
+    String viewType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences prefs = getPreferences(0);
+        prefs = getPreferences(0);
 
         if (prefs.getString("language", "").equals("")) {
             Translate.setLanguage("en");
 
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("language", "en");
+            editor.putString("view", "list");
             editor.commit();
 
             OptionsDialog dialog = new OptionsDialog(MainActivity.this, getPreferences(0));
             dialog.show();
         }
 
+        viewType = prefs.getString("view", "list");
         Translate.setLanguage(prefs.getString("language", "en"));
 
         setContentView(R.layout.activity_main);
@@ -142,13 +151,12 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recycler = (RecyclerView) findViewById(R.id.rv);
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
 
-        recycler.setLayoutManager(layoutManager);
+        mAdapter = new FirebaseRecyclerAdapter<BookData, BookHolder>(BookData.class,
+                viewType.equals("list") ? R.layout.list_item : R.layout.grid_item,
+                BookHolder.class,
+                ref.orderByChild("date_created"))  {
 
-        mAdapter = new FirebaseRecyclerAdapter<BookData, BookHolder>(BookData.class, R.layout.list_item, BookHolder.class, ref.orderByChild("date_created"))  {
             @Override
             public void populateViewHolder(BookHolder viewHolder, BookData book, int position) {
                 viewHolder.setTitle(book.getTitle());
@@ -172,6 +180,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+
+        menu.getItem(0).setIcon(ContextCompat.getDrawable(this,
+                viewType.equals("grid") ? R.drawable.ic_action_list : R.drawable.ic_action_grid));
+
         return true;
     }
 
@@ -180,6 +192,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_toggle) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("view", viewType.equals("list") ? "grid" : "list");
+            editor.commit();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+            this.finish();
 
         } else if (id == R.id.action_options) {
             OptionsDialog dialog = new OptionsDialog(MainActivity.this, getPreferences(0));
@@ -200,4 +221,6 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(run);
 
     }
+
+
 }
