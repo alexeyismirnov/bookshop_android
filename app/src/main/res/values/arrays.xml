@@ -17,6 +17,11 @@
         <item>Favorites</item>
         <item>Catalogue</item>
         <item>Downloading</item>
+        <item>Rate Orthodox Library</item>
+        <item>Remind me later</item>
+        <item>No, thanks</item>
+        <item>If you enjoy using Orthodox Library, would you mind taking a moment to rate it? It won\'t take more than a minute. Thanks for your support!</item>
+
     </string-array>
 
     <string-array name="trans_ui_zh_cn" translatable="false">
@@ -35,6 +40,10 @@
         <item>我的最愛</item>
         <item>目录</item>
         <item>下载</item>
+        <item>给正教图书馆评分</item>
+        <item>稍后提醒我</item>
+        <item>不，谢谢</item>
+        <item>如果你喜欢使用正教图书馆，你介意花一点时间给它评分吗？不会超过一分钟。感谢您的支持！</item>
     </string-array>
 
     <string-array name="trans_ui_zh_hk" translatable="false">
@@ -53,6 +62,10 @@
         <item>我的最愛</item>
         <item>目錄</item>
         <item>下載</item>
+        <item>給正教圖書館評分</item>
+        <item>稍後提醒我</item>
+        <item>不，謝謝</item>
+        <item>如果你喜歡使用正教圖書館，你介意花一點時間給它評分嗎？不會超過一分鐘。感謝您的支持！</item>
     </string-array>
 
     <string-array name="trans_ui_ru" translatable="false">
@@ -71,6 +84,10 @@
         <item>Избранное</item>
         <item>Каталог</item>
         <item>Загрузка</item>
+        <item>Оценить приложение</item>
+        <item>Напомнить позже</item>
+        <item>Нет, спасибо</item>
+        <item>Если Вам понравилось это приложение, то, пожалуйста, оцените его. Это займет всего несколько минут. Спасибо за поддержку!</item>
     </string-array>
 
 </resources>

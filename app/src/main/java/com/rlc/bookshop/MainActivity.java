@@ -26,6 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
+import java.util.Date;
+
+import jp.co.recruit_mp.android.rmp_appirater.RmpAppirater;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -142,6 +145,25 @@ public class MainActivity extends AppCompatActivity {
 
         viewType = prefs.getString("view", "list");
         Translate.setLanguage(prefs.getString("language", "en"));
+
+        RmpAppirater.appLaunched(this,
+                new RmpAppirater.ShowRateDialogCondition() {
+                    @Override
+                    public boolean isShowRateDialog(
+                            long appLaunchCount, long appThisVersionCodeLaunchCount,
+                            long firstLaunchDate, int appVersionCode,
+                            int previousAppVersionCode, Date rateClickDate,
+                            Date reminderClickDate, boolean doNotShowAgain) {
+
+                        return (rateClickDate == null && !doNotShowAgain && appLaunchCount >= 3);
+                    }
+                },
+                new RmpAppirater.Options(
+                        Translate.s("Orthodox Library"),
+                        Translate.s("If you enjoy using Orthodox Library, would you mind taking a moment to rate it? It won\'t take more than a minute. Thanks for your support!"),
+                        Translate.s("Rate Orthodox Library"),
+                        Translate.s("Remind me later"),
+                        Translate.s("No, thanks")));
 
         setContentView(R.layout.activity_main);
         setTitle(Translate.s("Orthodox Library"));
