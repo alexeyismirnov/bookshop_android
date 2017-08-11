@@ -243,7 +243,7 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
 
         } else {
             intent = new Intent(BookDetailActivity.this, FolioActivity.class);
-            intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.ASSESTS);
+            intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.SD_CARD);
             intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH, uri.getPath());
             startActivity(intent);
 
