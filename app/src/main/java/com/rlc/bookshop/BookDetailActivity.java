@@ -57,24 +57,24 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     public static class BookDetails {
-        String title_en;
-        String title_ru;
-        String title_zh_cn;
-        String title_zh_hk;
-        String author_en;
-        String author_ru;
-        String author_zh_cn;
-        String author_zh_hk;
-        String description_en;
-        String description_ru;
-        String description_zh_cn;
-        String description_zh_hk;
-        String image;
-        String language;
-        String pages;
-        String publisher;
-        String translator;
-        String date_created;
+        public String title_en;
+        public String title_ru;
+        public String title_zh_cn;
+        public String title_zh_hk;
+        public String author_en;
+        public String author_ru;
+        public String author_zh_cn;
+        public String author_zh_hk;
+        public String description_en;
+        public String description_ru;
+        public String description_zh_cn;
+        public String description_zh_hk;
+        public String image;
+        public String language;
+        public String pages;
+        public String publisher;
+        public String translator;
+        public String date_created;
 
         public BookDetails() { }
 
@@ -243,7 +243,8 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
 
         } else {
             intent = new Intent(BookDetailActivity.this, FolioActivity.class);
-            intent.putExtra(FolioActivity.INTENT_EPUB_ASSET_PATH, uri.getPath());
+            intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_TYPE, FolioActivity.EpubSourceType.ASSESTS);
+            intent.putExtra(FolioActivity.INTENT_EPUB_SOURCE_PATH, uri.getPath());
             startActivity(intent);
 
         }

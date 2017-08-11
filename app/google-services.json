@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "185284179107-mjkdf5v3t06dcf7btlsp8nmpg68ja03q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rlc.bookshop",
+            "certificate_hash": "69DE816379ED7317C082466BD48555DD4E691D69"
+          }
+        },
+        {
           "client_id": "185284179107-9hp3orlugividddtmrrdccr2d61ed554.apps.googleusercontent.com",
           "client_type": 3
         }

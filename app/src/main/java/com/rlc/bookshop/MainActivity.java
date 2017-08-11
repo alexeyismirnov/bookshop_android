@@ -3,6 +3,7 @@ package com.rlc.bookshop;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.Keep;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -80,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static class BookData  {
-        String title_en;
-        String title_ru;
-        String title_zh_cn;
-        String title_zh_hk;
-        String image;
-        String download_url;
-        String epub_url;
-        String date_created;
+        public String title_en;
+        public String title_ru;
+        public String title_zh_cn;
+        public String title_zh_hk;
+        public String image;
+        public String download_url;
+        public String epub_url;
+        public String date_created;
 
         public BookData() { }
 
@@ -114,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 return str;
 
             }  catch (Exception e2) { }
-
             return title_en;
         }
 
@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference ref = database.getReference("/index");
 
         RecyclerView recycler = (RecyclerView) findViewById(R.id.rv);
-
 
         mAdapter = new FirebaseRecyclerAdapter<BookData, BookHolder>(BookData.class,
                 viewType.equals("list") ? R.layout.list_item : R.layout.grid_item,

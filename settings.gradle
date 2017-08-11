@@ -1,1 +1,1 @@
-include ':app', ':folioreader', ':swipe_library', ':webViewMarker-release'
+include ':app'
